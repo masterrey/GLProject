@@ -4,6 +4,8 @@
 	{
 		_MainTex ("Textura", 2D) = "white" {}
 		_Color ("Minha cor", Color) = (1,0.5,0.5,1)
+		_Color2 ("Minha cor2", Color) = (1,0.5,0.5,1)
+		_Force ("Shadow Force", float) = 0.8
 	}
 	SubShader
 	{
@@ -30,13 +32,14 @@
 			varying float wobble;
 			uniform vec3 _Color;
 			uniform vec3 _Color2;
+			uniform float _Force;
 			void main() {
 				vec2 ponto=vec2(0.5,0.5);
 				 float pontomagnitude =length((vUV-ponto)*vec2(1.3,1.0));
 				if(pontomagnitude>0.2){
-					 gl_FragColor = vec4(_Color*(+0.5)*(wobble+0.8), 1.0 );
+					 gl_FragColor = vec4(_Color*(+0.5)*(wobble+_Force), 1.0 );
 				}else{
-					 gl_FragColor = vec4(_Color2*(+0.5)*(wobble+0.8), 1.0 );
+					 gl_FragColor = vec4(_Color2*(+0.5)*(wobble+_Force), 1.0 );
 				}
 			}
 			#endif
