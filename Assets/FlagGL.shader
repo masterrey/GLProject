@@ -16,25 +16,28 @@
 			#include "UnityCG.glslinc"
 			#ifdef VERTEX 
 			varying vec2 vUV;
-			
-
-			
+			varying float wobble;
 			void main() {
 				vec4 calcvec=  gl_Vertex;
-				
-				float wobble = sin(_Time.z+calcvec.x)*(calcvec.x-5)*0.1;
-
+				wobble = sin(_Time.z+calcvec.x)*(calcvec.x-5)*0.1;
 				gl_Position = gl_ModelViewProjectionMatrix * calcvec+vec4(0,wobble,0,0);
-				
-
 				vUV=gl_MultiTexCoord0.xy;
 			}
 			#endif 
+			////////////////////////////////////////////////////////////////////////////////////
 			#ifdef FRAGMENT
 			varying vec2 vUV;
-			uniform vec4 _Color;
+			varying float wobble;
+			uniform vec3 _Color;
+			uniform vec3 _Color2;
 			void main() {
-				gl_FragColor = vec4(_Color.xyz*vUV.x,1);
+				vec2 ponto=vec2(0.5,0.5);
+				 float pontomagnitude =length((vUV-ponto)*vec2(1.3,1.0));
+				if(pontomagnitude>0.2){
+					 gl_FragColor = vec4(_Color*(+0.5)*(wobble+0.8), 1.0 );
+				}else{
+					 gl_FragColor = vec4(_Color2*(+0.5)*(wobble+0.8), 1.0 );
+				}
 			}
 			#endif
 			ENDGLSL
