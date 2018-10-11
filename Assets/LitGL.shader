@@ -30,7 +30,7 @@
 			void main() {
 
 				//mat4x4 modelMatrix = gl_ModelViewMatrix - gl_ModelView;
-				mat4x4 modelMatrix = gl_ModelViewMatrix + Inverse(gl_ModelView);
+				mat4x4 modelMatrix = gl_ModelViewMatrix + inverse(gl_ModelViewMatrix);
 			//_WorldSpaceLightPos0
 			//+vec4(normal,0)
 				gl_FragColor = vec4(_Color.xyz,1);
