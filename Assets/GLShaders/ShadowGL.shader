@@ -33,7 +33,7 @@
 			 vec3 lightVector =normalize(_WorldSpaceLightPos0.xyz);
 			 vec3 worldnormal=(unity_ObjectToWorld *vec4(normal,0)).xyz;
 			 float brightness = dot( worldnormal, lightVector);
-			 gl_FragColor = vec4(_Color.xyz*(1-brightness),1);
+			 gl_FragColor = vec4(_Color.xyz*brightness,1);
 			}
 			#endif
 			ENDGLSL
