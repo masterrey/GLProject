@@ -12,30 +12,29 @@
 		{
 			GLSLPROGRAM
 			#include "UnityCG.glslinc"
+			
 			#ifdef VERTEX 
 			varying vec2 vUV;
 			varying vec3 normal;
-			varying vec3 vPosition;
+			varying vec4 vPosition;
+			
 			void main() {
-				vPosition=gl_Vertex.xyz;
-				//gl_Position =  gl_ModelViewProjectionMatrix * gl_Vertex;
 				gl_Position =gl_ProjectionMatrix*gl_ModelViewMatrix * gl_Vertex;
-				normal=gl_Normal;
+				normal=gl_Normal.xyz;
 				vUV=gl_MultiTexCoord0.xy;
 			}
 			#endif 
+
 			#ifdef FRAGMENT
 			varying vec2 vUV;
 			uniform vec4 _Color;
 			varying vec3 normal;
 			varying vec3 vPosition;
 			void main() {
-			//_WorldSpaceLightPos0
-			//+vec4(normal,0)
-			mat4 modelMatrix=gl_ModelViewMatrix*inverse(gl_ModelViewMatrix);
-			vec3 worldPosition = ( modelMatrix * vec4( vPosition, 1.0 )).xyz;
-
-				gl_FragColor = vec4(_Color.xyz,1);
+			 vec3 lightVector =normalize(_WorldSpaceLightPos0.xyz);
+			 vec3 worldnormal=(unity_ObjectToWorld *vec4(normal,0)).xyz;
+			 float brightness = dot( worldnormal, lightVector);
+			 gl_FragColor = vec4(_Color.xyz*brightness,1);
 			}
 			#endif
 			ENDGLSL
